@@ -27,7 +27,7 @@ jobs:
           cloudcrown=$(check_url https://www.cloudcrown.ch)
           mail=$(check_url https://mail.cloudcrown.ch)
           panel=$(check_url https://mein.cloudcrown.ch)
-          plesk=$(check_url https://mein.cloudcrown.ch)
+          plesk=$(check_url https://server.cloudcrown.ch)
 
           echo "{
             \"last_updated\": \"$timestamp\",
