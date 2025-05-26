@@ -13,7 +13,7 @@ jobs:
       - name: Repository klonen
         uses: actions/checkout@v3
 
-      - name: Status prüfen
+            - name: Status prüfen
         run: |
           echo "Starte Statusprüfung..."
 
@@ -27,14 +27,16 @@ jobs:
           mail=$(check_url https://mail.cloudcrown.ch)
           panel=$(check_url https://mein.cloudcrown.ch)
 
-          echo "{
-  \"last_updated\": \"$timestamp\",
-  \"status\": {
-    \"cloudcrown\": \"$cloudcrown\",
-    \"mail\": \"$mail\",
-    \"panel\": \"$panel\"
+          cat <<EOF > status.json
+{
+  "last_updated": "$timestamp",
+  "status": {
+    "cloudcrown": "$cloudcrown",
+    "mail": "$mail",
+    "panel": "$panel"
   }
-}" > status.json
+}
+EOF
 
       - name: Änderungen committen
         run: |
