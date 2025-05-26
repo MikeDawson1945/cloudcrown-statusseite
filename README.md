@@ -2,7 +2,7 @@
 
 ![Letztes Update](https://img.shields.io/endpoint?url=https://mikedawson1945.github.io/cloudcrown-statusseite/badge-last-updated.json)
 ![Hauptseite](https://img.shields.io/endpoint?url=https://mikedawson1945.github.io/cloudcrown-statusseite/badge-cloudcrown.json)
-![Mailserver](https://img.shields.io/endpoint?url=https://mikedawson1945.github.io/cloudcrown-statusseite/badge-mail.json)
+![Mailserver](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/MikeDawson1945/cloudcrown-statusseite/main/badge-mail.json)
 ![Kundenpanel](https://img.shields.io/endpoint?url=https://mikedawson1945.github.io/cloudcrown-statusseite/badge-panel.json)
 
 
