@@ -27,7 +27,7 @@ jobs:
           mail=$(check_url https://mail.cloudcrown.ch)
           panel=$(check_url https://mein.cloudcrown.ch)
 
-          cat <<EOF > status.json
+cat <<EOF > status.json
 {
   "last_updated": "$timestamp",
   "status": {
