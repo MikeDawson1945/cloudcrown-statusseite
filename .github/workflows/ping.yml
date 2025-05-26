@@ -1,0 +1,45 @@
+name: Status aktualisieren
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'  # alle 5 Minuten
+  workflow_dispatch:
+
+jobs:
+  check-status:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository klonen
+        uses: actions/checkout@v3
+
+      - name: Status prüfen
+        run: |
+          echo "Starte Statusprüfung..."
+
+          timestamp=$(date "+%d. %B %Y, %H:%M Uhr")
+
+          check_url() {
+            curl -Is --max-time 5 "$1" | head -n 1 | grep -q "200" && echo "online" || echo "offline"
+          }
+
+          cloudcrown=$(check_url https://www.cloudcrown.ch)
+          mail=$(check_url https://mail.cloudcrown.ch)
+          panel=$(check_url https://mein.cloudcrown.ch)
+
+          echo "{
+  \"last_updated\": \"$timestamp\",
+  \"status\": {
+    \"cloudcrown\": \"$cloudcrown\",
+    \"mail\": \"$mail\",
+    \"panel\": \"$panel\"
+  }
+}" > status.json
+
+      - name: Änderungen committen
+        run: |
+          git config user.name "cloudcrown-bot"
+          git config user.email "bot@cloudcrown.ch"
+          git add status.json
+          git commit -m "Status automatisch aktualisiert" || echo "Keine Änderungen"
+          git push
