@@ -22,8 +22,14 @@ jobs:
           timestamp=$(date "+%d. %B %Y, %H:%M Uhr")
 
           check_url() {
-            curl -Is --max-time 5 "$1" | head -n 1 | grep -q "200" && echo "online" || echo "wartung"
+            code=$(curl -Is --max-time 5 -o /dev/null -w "%{http_code}" "$1")
+            if [ "$code" -ge 200 ] && [ "$code" -lt 400 ]; then
+              echo "online"
+            else
+              echo "wartung"
+            fi
           }
+
 
           cloudcrown=$(check_url https://www.cloudcrown.ch)
           mail=$(check_url https://mail.cloudcrown.ch)
