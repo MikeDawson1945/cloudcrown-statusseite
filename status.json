@@ -1,8 +1,63 @@
-{
-  "last_updated": "26. May 2025, 20:34 Uhr",
-  "status": {
-    "cloudcrown": "online",
-    "mail": "online",
-    "panel": "online"
-  }
-}
+name: Status aktualisieren
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'  # alle 15 Minuten
+  workflow_dispatch:
+
+jobs:
+  check-status:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repository klonen
+        uses: actions/checkout@v3
+
+      - name: Status prüfen & Dateien aktualisieren
+        run: |
+          echo "🔍 Starte Statusprüfung..."
+
+          timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+          check_url() {
+            curl -Is --max-time 5 "$1" | head -n 1 | grep -q "200" && echo "online" || echo "offline"
+          }
+
+          website=$(check_url https://cloudcrown.ch)
+          mail=$(check_url https://mail.cloudcrown.ch)
+          panel=$(check_url https://mein.cloudcrown.ch)
+
+          # 🟢 status.json aktualisieren
+          echo '{
+            "last_updated": "'"$timestamp"'",
+            "status": {
+              "website": "'"$website"'",
+              "mail": "'"$mail"'",
+              "panel": "'"$panel"'"
+            }
+          }' > status.json
+
+          # 📊 Badges aktualisieren
+          echo '{"schemaVersion":1,"label":"Stand","message":"'"$(date '+%d. %B %Y, %H:%M Uhr')"'","color":"blue"}' > badge-last-updated.json
+          echo '{"schemaVersion":1,"label":"Webseite","message":"'"$website"'","color":"'"${website}"'"}' > badge-cloudcrown.json
+          echo '{"schemaVersion":1,"label":"Mailserver","message":"'"$mail"'","color":"'"${mail}"'"}' > badge-mail.json
+          echo '{"schemaVersion":1,"label":"Kundenpanel","message":"'"$panel"'","color":"'"${panel}"'"}' > badge-panel.json
+
+          # 📈 uptime-history aktualisieren
+          history_file="uptime-history.json"
+          if [ -f "$history_file" ]; then
+            old_data=$(cat "$history_file")
+          else
+            old_data="[]"
+          fi
+
+          new_entry="{\"timestamp\": \"$timestamp\", \"status\": \"$website\"}"
+          updated_data=$(jq --argjson new "$new_entry" '[.[], $new] | reverse | .[:96] | reverse' <<< "$old_data")
+          echo "$updated_data" > "$history_file"
+
+      - name: Änderungen committen
+        run: |
+          git config user.name "cloudcrown-bot"
+          git config user.email "bot@cloudcrown.ch"
+          git add status.json badge-*.json uptime-history.json badge-last-updated.json
+          git commit -m "🔄 Status & Badges aktualisiert" || echo "Keine Änderungen"
+          git push
