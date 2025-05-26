@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Status | CloudCrown Hosting</title>
+  <style>
+    body {
+      background-color: #111118;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 2rem;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    h1 {
+      color: #DC0046;
+      text-align: center;
+    }
+    .status-box {
+      background: #1e1e25;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+    .status {
+      font-size: 1.2rem;
+      margin: 0.5rem 0;
+    }
+    .online {
+      color: #00ff88;
+    }
+    .offline {
+      color: #ff4444;
+    }
+    .maintenance {
+      color: #ffaa00;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>CloudCrown Statusseite</h1>
+    <p>Letztes Update: <span id="last-updated">Lade...</span></p>
+
+    <div class="status-box">
+      <div class="status">🌐 Hauptseite: <span id="cloudcrown-ch">Lade...</span></div>
+      <div class="status">📧 Mailserver: <span id="mail-cloudcrown-ch">Lade...</span></div>
+      <div class="status">👨‍💼 Kundenpanel: <span id="mein-cloudcrown-ch">Lade...</span></div>
+    </div>
+  </div>
+
+  <script>
+    fetch("status.json")
+      .then((res) => res.json())
+      .then((data) => {
+        document.getElementById("last-updated").textContent = data.last_updated;
+
+        const map = {
+          "online": "✅ Online",
+          "offline": "❌ Offline",
+          "maintenance": "🛠 Wartung"
+        };
+
+        document.getElementById("cloudcrown-ch").innerHTML = `<span class="${data.status.cloudcrown}">${map[data.status.cloudcrown]}</span>`;
+        document.getElementById("mail-cloudcrown-ch").innerHTML = `<span class="${data.status.mail}">${map[data.status.mail]}</span>`;
+        document.getElementById("mein-cloudcrown-ch").innerHTML = `<span class="${data.status.panel}">${map[data.status.panel]}</span>`;
+      })
+      .catch(() => {
+        document.querySelectorAll(".status span").forEach(el => {
+          el.textContent = "⚠️ Fehler beim Laden";
+          el.style.color = "#ffaa00";
+        });
+      });
+  </script>
+</body>
+</html>
