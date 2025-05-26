@@ -19,7 +19,6 @@ jobs:
           export LANG=de_CH.UTF-8
           timestamp=$(date +"%d. %B %Y, %H:%M Uhr")
 
-
           check_url() {
             curl -Is --max-time 5 "$1" | head -n 1 | grep -q "200" && echo "online" || echo "offline"
           }
@@ -39,7 +38,7 @@ jobs:
           }' > status.json
 
           # 📊 Badges aktualisieren
-          echo '{"schemaVersion":1,"label":"Stand","message":"'"$(date '+%d. %B %Y, %H:%M Uhr')"'","color":"blue"}' > badge-last-updated.json
+          echo '{"schemaVersion":1,"label":"Stand","message":"'$timestamp'","color":"blue"}' > badge-last-updated.json
           echo '{"schemaVersion":1,"label":"Webseite","message":"'$website'","color":"'$website'"}' > badge-cloudcrown.json
           echo '{"schemaVersion":1,"label":"Mailserver","message":"'$mail'","color":"'$mail'"}' > badge-mail.json
           echo '{"schemaVersion":1,"label":"Kundenpanel","message":"'$panel'","color":"'$panel'"}' > badge-panel.json
@@ -60,6 +59,6 @@ jobs:
         run: |
           git config user.name "cloudcrown-bot"
           git config user.email "bot@cloudcrown.ch"
-          git add status.json badge-*.json uptime-history.json badge-last-updated.json
+          git add status.json badge-*.json uptime-history.json badge-last-updated.json || true
           git commit -m "🔄 Status & Badges aktualisiert" || echo "Keine Änderungen"
           git push
