@@ -13,7 +13,7 @@ jobs:
       - name: Repository klonen
         uses: actions/checkout@v3
 
-            - name: Status prüfen und Datei schreiben
+      - name: Status prüfen und Datei schreiben
         run: |
           echo "Starte Statusprüfung..."
 
