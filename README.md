@@ -1,7 +1,7 @@
 # 🌐 CloudCrown Hosting – Statusseite
 
 ![Letztes Update](https://img.shields.io/endpoint?url=https://mikedawson1945.github.io/cloudcrown-statusseite/badge-last-updated.json)
-![Hauptseite](https://img.shields.io/endpoint?url=https://mikedawson1945.github.io/cloudcrown-statusseite/badge-cloudcrown.json)
+![Hauptseite]([https://img.shields.io/endpoint?url=https://mikedawson1945.github.io/cloudcrown-statusseite](https://raw.githubusercontent.com/MikeDawson1945/cloudcrown-statusseite/main)/badge-cloudcrown.json)
 ![Mailserver](https://img.shields.io/endpoint?url=https://mikedawson1945.github.io/cloudcrown-statusseite/badge-mail.json)
 ![Kundenpanel](https://img.shields.io/endpoint?url=https://mikedawson1945.github.io/cloudcrown-statusseite/badge-panel.json)
 
