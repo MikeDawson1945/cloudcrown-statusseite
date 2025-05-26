@@ -8,38 +8,41 @@ on:
 jobs:
   check-status:
     runs-on: ubuntu-latest
+
     steps:
       - name: Repository klonen
         uses: actions/checkout@v3
 
       - name: Status prüfen und Datei schreiben
         run: |
-          echo "Starte Statusprüfung..."
+          echo "🔍 Starte Statusprüfung..."
 
           export TZ="Europe/Zurich"
           timestamp=$(date "+%d. %B %Y, %H:%M Uhr")
 
           check_url() {
-            curl -Is --max-time 5 "$1" | head -n 1 | grep -q "200" && echo "online" || echo "offline"
+            curl -Is --max-time 5 "$1" | head -n 1 | grep -q "200" && echo "online" || echo "wartung"
           }
 
           cloudcrown=$(check_url https://www.cloudcrown.ch)
           mail=$(check_url https://mail.cloudcrown.ch)
           panel=$(check_url https://mein.cloudcrown.ch)
 
-          echo '{
-            "last_updated": "'"$timestamp"'",
-            "status": {
-              "cloudcrown": "'"$cloudcrown"'",
-              "mail": "'"$mail"'",
-              "panel": "'"$panel"'"
+          echo "{
+            \"last_updated\": \"$timestamp\",
+            \"status\": {
+              \"cloudcrown\": \"$cloudcrown\",
+              \"mail\": \"$mail\",
+              \"panel\": \"$panel\"
             }
-          }' > status.json
+          }" > status.json
 
-      - name: Änderungen committen
+      - name: Änderungen committen und pushen
+        env:
+          GIT_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           git config user.name "cloudcrown-bot"
           git config user.email "bot@cloudcrown.ch"
           git add status.json
-          git commit -m "Status automatisch aktualisiert" || echo "Keine Änderungen"
-          git push
+          git commit -m "Status automatisch aktualisiert" || echo "✅ Keine Änderungen zum Commit"
+          git push https://x-access-token:${GIT_TOKEN}@github.com/${{ github.repository }}.git
