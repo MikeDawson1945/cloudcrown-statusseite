@@ -1,11 +1,19 @@
+name: Status aktualisieren
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'  # alle 5 Minuten
+  workflow_dispatch:
+
 jobs:
   check-status:
     runs-on: ubuntu-latest
+
     steps:
       - name: Repository klonen
         uses: actions/checkout@v3
 
-      - name: Status prüfen
+      - name: Status prüfen und Datei schreiben
         run: |
           echo "Starte Statusprüfung..."
 
@@ -29,3 +37,11 @@ jobs:
   }
 }
 EOF
+
+      - name: Änderungen committen
+        run: |
+          git config user.name "cloudcrown-bot"
+          git config user.email "bot@cloudcrown.ch"
+          git add status.json
+          git commit -m "Status automatisch aktualisiert" || echo "Keine Änderungen"
+          git push
