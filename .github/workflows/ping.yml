@@ -48,3 +48,42 @@ jobs:
           git add status.json
           git commit -m "Status automatisch aktualisiert" || echo "✅ Keine Änderungen zum Commit"
           git push https://x-access-token:${GIT_TOKEN}@github.com/${{ github.repository }}.git
+
+# Farben definieren
+color_from_status() {
+  case "$1" in
+    online) echo "brightgreen" ;;
+    wartung) echo "orange" ;;
+    offline) echo "red" ;;
+    *) echo "lightgrey" ;;
+  esac
+}
+
+# Badges erzeugen
+echo "{
+  \"schemaVersion\": 1,
+  \"label\": \"Hauptseite\",
+  \"message\": \"$cloudcrown\",
+  \"color\": \"$(color_from_status $cloudcrown)\"
+}" > badge-cloudcrown.json
+
+echo "{
+  \"schemaVersion\": 1,
+  \"label\": \"Mailserver\",
+  \"message\": \"$mail\",
+  \"color\": \"$(color_from_status $mail)\"
+}" > badge-mail.json
+
+echo "{
+  \"schemaVersion\": 1,
+  \"label\": \"Kundenpanel\",
+  \"message\": \"$panel\",
+  \"color\": \"$(color_from_status $panel)\"
+}" > badge-panel.json
+
+echo "{
+  \"schemaVersion\": 1,
+  \"label\": \"Stand\",
+  \"message\": \"$timestamp\",
+  \"color\": \"blue\"
+}" > badge-last-updated.json
