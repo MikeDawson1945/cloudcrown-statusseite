@@ -1,139 +1,49 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CloudCrown Status</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CloudCrown Statusseite</title>
   <style>
     body {
-      background-color: #000E1D;
-      color: #eee;
-      font-family: sans-serif;
+      background-color: #0e1117;
+      color: #e0e0e0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
       text-align: center;
       padding: 2rem;
     }
-
-    h1 {
-      color: #006EE8;
-    }
-
-    .box {
-      background: #00244B;
-      border-radius: 15px;
+    .statusbox {
+      background-color: #161b22;
+      padding: 1rem 2rem;
+      border-radius: 1rem;
       display: inline-block;
-      padding: 1.5rem 2.5rem;
       margin-top: 1rem;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
     }
-
-    .status {
-      text-align: left;
-      margin: 0 auto;
-      font-size: 1.1rem;
+    .status-entry {
+      margin: 0.5rem 0;
     }
-
-    .status p {
-      margin: 0.8rem 0;
-    }
-
     .online {
       color: #00e676;
     }
-
     .offline {
-      color: #ff3d00;
+      color: #ff1744;
     }
-
     .wartung {
       color: #ffa726;
     }
-
-    .icon {
-      margin-right: 0.5rem;
+    a {
+      color: #58a6ff;
+      text-decoration: none;
     }
-    <style>
-      .statusbox p,
-      .statusbox h3,
-      .statusbox span {
-        color: #e0e0e0; /* z.B. helles Grau für gute Lesbarkeit */
-      }
-    </style>
-
-  </style>
-  <script src="uptime.js" defer></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
-  <style>
-  body { font-family: 'Inter', sans-serif; }
-  .uptime-bar {
-    display: flex;
-    gap: 2px;
-    margin-top: 8px;
-  }
-  .uptime-bar span {
-    display: inline-block;
-    width: 8px;
-    height: 20px;
-    background-color: grey;
-  }
-  .online { background-color: #4caf50; } /* grün */
-  .offline { background-color: #f44336; } /* rot */
   </style>
 </head>
 <body>
-
-  <h1>CloudCrown Statusseite</h1>
-  <p id="timestamp">Letztes Update: Lade...</p>
-
-  <div class="box">
-    <div class="status" id="statusContent">
-      <p>🔄 Lade Statusdaten...</p>
-    </div>
+  <h1 style="color: #2471ff">CloudCrown Statusseite</h1>
+  <p>Letztes Update: 26. May 2025, 20:34 Uhr</p>
+  <div class="statusbox">
+    <p class="status-entry">🌐 Webseite: <span class="online">✅ Online</span></p>
+    <p class="status-entry">📧 Mailserver: <span class="online">✅ Online</span></p>
+    <p class="status-entry">👤 Kundenpanel: <span class="online">✅ Online</span></p>
   </div>
-  <div>
-  <h2>📈 Verfügbarkeit</h2>
-  <p id="uptimeText">Lade Uptime...</p>
-  <div class="uptime-bar" id="uptimeBar"></div>
-  </div>
-
-
-  <script>
-    fetch("status.json")
-      .then(response => response.json())
-      .then(data => {
-        const container = document.getElementById("statusContent");
-        const timestamp = document.getElementById("timestamp");
-
-        timestamp.textContent = `Letztes Update: ${data.last_updated}`;
-
-        const statusMap = {
-          online: { text: "✅ Online", class: "online" },
-          offline: { text: "❌ Offline", class: "offline" },
-          wartung: { text: "🛠 Wartung", class: "wartung" },
-          maintenance: { text: "🛠 Wartung", class: "wartung" } // <- HIER ergänzen
-        };
-
-        const services = {
-          "🌐 Webseite": data.status.cloudcrown,
-          "📧 Mailserver": data.status.mail,
-          "👤 Kundenpanel": data.status.panel
-        };
-
-        container.innerHTML = "";
-
-        for (const [name, state] of Object.entries(services)) {
-          const s = statusMap[state] || { text: `❓ ${state}`, class: "" };
-          const p = document.createElement("p");
-          p.className = s.class;
-          p.innerHTML = `<span class="icon">${name}:</span> <strong>${s.text}</strong>`;
-          container.appendChild(p);
-        }
-      })
-      .catch(error => {
-        document.getElementById("statusContent").innerHTML =
-          "<p style='color: red;'>Fehler beim Laden der Statusdaten.</p>";
-        console.error("Fehler beim Laden der JSON-Datei:", error);
-      });
-  </script>
-
 </body>
 </html>
