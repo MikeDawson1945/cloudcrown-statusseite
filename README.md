@@ -1,9 +1,10 @@
 # 🌐 CloudCrown Hosting – Statusseite
 
-![Last Update](https://img.shields.io/endpoint?url=https://mikedawson1945.github.io/cloudcrown-statusseite/badge-last-updated.json)
-![CloudCrown](https://img.shields.io/endpoint?url=https://mikedawson1945.github.io/cloudcrown-statusseite/badge-cloudcrown.json)
-![Mail](https://img.shields.io/endpoint?url=https://mikedawson1945.github.io/cloudcrown-statusseite/badge-mail.json)
+![Letztes Update](https://img.shields.io/endpoint?url=https://mikedawson1945.github.io/cloudcrown-statusseite/badge-last-updated.json)
+![Hauptseite](https://img.shields.io/endpoint?url=https://mikedawson1945.github.io/cloudcrown-statusseite/badge-cloudcrown.json)
+![Mailserver](https://img.shields.io/endpoint?url=https://mikedawson1945.github.io/cloudcrown-statusseite/badge-mail.json)
 ![Kundenpanel](https://img.shields.io/endpoint?url=https://mikedawson1945.github.io/cloudcrown-statusseite/badge-panel.json)
+
 
 Willkommen auf der öffentlich einsehbaren Statusseite von **CloudCrown Hosting**.  
 Hier siehst du live, ob unsere wichtigsten Dienste erreichbar sind.
