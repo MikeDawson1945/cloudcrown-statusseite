@@ -31,7 +31,6 @@ jobs:
             -e 's/November/November/' \
             -e 's/December/Dezember/')
 
-
           check_url() {
             curl -Is --max-time 5 "$1" | head -n 1 | grep -q "200" && echo "online" || echo "offline"
           }
