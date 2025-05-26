@@ -20,7 +20,7 @@ Hier siehst du live, ob unsere wichtigsten Dienste erreichbar sind.
 - 📧 | Mailserver |
 - 👤 | Kundenpanel | ([https://mein.cloudcrown.ch](https://mein.cloudcrown.ch))
 
-Die Seite wird alle **5 Minuten** automatisch über [GitHub Actions](https://github.com/features/actions) aktualisiert.
+Die Seite wird alle **15 Minuten** automatisch über [GitHub Actions](https://github.com/features/actions) aktualisiert.
 
 ---
 
