@@ -8,7 +8,6 @@ on:
 jobs:
   check-status:
     runs-on: ubuntu-latest
-
     steps:
       - name: Repository klonen
         uses: actions/checkout@v3
@@ -35,7 +34,6 @@ jobs:
               "panel": "'"$panel"'"
             }
           }' > status.json
-
 
       - name: Änderungen committen
         run: |
