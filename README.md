@@ -15,9 +15,9 @@ Hier siehst du live, ob unsere wichtigsten Dienste erreichbar sind.
 
 ## 📊 Überwachte Dienste
 
-- 🌐 [https://cloudcrown.ch](https://cloudcrown.ch)
-- 📧 [https://mail.cloudcrown.ch](https://mail.cloudcrown.ch)
-- 👤 [https://mein.cloudcrown.ch](https://mein.cloudcrown.ch)
+- 🌐 | Webseite | ([https://cloudcrown.ch](https://cloudcrown.ch))
+- 📧 | Mailserver | ([https://mail.cloudcrown.ch](https://mail.cloudcrown.ch))
+- 👤 | Kundenpanel | ([https://mein.cloudcrown.ch](https://mein.cloudcrown.ch))
 
 Die Seite wird alle **5 Minuten** automatisch über [GitHub Actions](https://github.com/features/actions) aktualisiert.
 
