@@ -1,42 +1,45 @@
 # 🌐 CloudCrown Hosting – Statusseite
 
-Dies ist die öffentlich einsehbare Statusseite von **CloudCrown Hosting**.  
+![Last Update](https://img.shields.io/endpoint?url=https://mikedawson1945.github.io/cloudcrown-statusseite/badge-last-updated.json)
+![CloudCrown](https://img.shields.io/endpoint?url=https://mikedawson1945.github.io/cloudcrown-statusseite/badge-cloudcrown.json)
+![Mail](https://img.shields.io/endpoint?url=https://mikedawson1945.github.io/cloudcrown-statusseite/badge-mail.json)
+![Kundenpanel](https://img.shields.io/endpoint?url=https://mikedawson1945.github.io/cloudcrown-statusseite/badge-panel.json)
+
+Willkommen auf der öffentlich einsehbaren Statusseite von **CloudCrown Hosting**.  
 Hier siehst du live, ob unsere wichtigsten Dienste erreichbar sind.
 
-👉 **Live-Status ansehen:**  
-[🔗 https://mikedawson1945.github.io/cloudcrown-statusseite](https://mikedawson1945.github.io/cloudcrown-statusseite)
+👉 **Live ansehen:**  
+🔗 https://mikedawson1945.github.io/cloudcrown-statusseite
 
 ---
 
-## 📊 Statusübersicht
+## 📊 Überwachte Dienste
 
-| Dienst           | Status Badge |
-|------------------|--------------|
-| 🌐 Webseite       | ![Webseite](https://img.shields.io/badge/Status-Aktualisiert-blue) |
-| 📧 Mailserver     | ![Mail](https://img.shields.io/badge/Mail-Aktualisiert-blue) |
-| 👤 Kundenpanel    | ![Panel](https://img.shields.io/badge/Panel-Aktualisiert-blue) |
+- 🌐 [https://cloudcrown.ch](https://cloudcrown.ch)
+- 📧 [https://mail.cloudcrown.ch](https://mail.cloudcrown.ch)
+- 👤 [https://mein.cloudcrown.ch](https://mein.cloudcrown.ch)
 
-> Diese Badges zeigen den generellen Zustand an und werden alle 5 Minuten aktualisiert über GitHub Actions.
+Die Seite wird alle **5 Minuten** automatisch über [GitHub Actions](https://github.com/features/actions) aktualisiert.
 
 ---
 
-## 🔁 Automatisierung
+## ⚙️ Technisches Setup
 
-Diese Seite basiert auf:
+- `status.json` wird automatisiert erstellt (per Bash & Curl)
+- `index.html` zeigt den Status per JavaScript live an
+- Badges werden über [`shields.io`](https://shields.io) aus JSON-Dateien generiert
 
-- [GitHub Actions](https://github.com/features/actions) für automatische Prüfungen
-- [status.json](./status.json) wird alle 5 Minuten aktualisiert
-- Anzeige über einfache HTML-Datei mit JavaScript
-
----
-
-## ⚙️ Repository-Info
-
-- Dieses Projekt wird von [CloudCrown Hosting](https://www.cloudcrown.ch) betrieben.
-- Fragen oder Feedback? [support@cloudcrown.ch](mailto:support@cloudcrown.ch)
+Du kannst den Code gern als Vorlage für dein eigenes Hosting-Projekt nutzen 🎯
 
 ---
 
-## 📌 Lizenz
+## 📬 Kontakt
+
+Betrieben von [CloudCrown Hosting](https://www.cloudcrown.ch)  
+📧 support@cloudcrown.ch
+
+---
+
+## 📄 Lizenz
 
 MIT License – frei verwendbar mit Quellenangabe.
