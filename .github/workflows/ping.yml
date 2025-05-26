@@ -16,7 +16,9 @@ jobs:
         run: |
           echo "🔍 Starte Statusprüfung..."
 
-          timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          export LANG=de_CH.UTF-8
+          timestamp=$(date +"%d. %B %Y, %H:%M Uhr")
+
 
           check_url() {
             curl -Is --max-time 5 "$1" | head -n 1 | grep -q "200" && echo "online" || echo "offline"
