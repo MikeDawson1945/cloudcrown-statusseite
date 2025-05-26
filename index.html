@@ -44,6 +44,11 @@
       font-weight: 600;
     }
 
+    .status-offline {
+      color: #f44336;
+      font-weight: 600;
+    }
+
     h1 {
       color: #006ee8;
       margin-bottom: 0.5rem;
@@ -59,22 +64,53 @@
 <body>
   <div class="container">
     <h1>CloudCrown Hosting Statusseite</h1>
-    <div class="timestamp">Letztes Update: 26. May 2025, 20:34 Uhr</div>
+    <div class="timestamp" id="last-updated">Lade letztes Update...</div>
 
     <div class="status-box">
       <div class="status-item">
         <span class="status-icon">🌐</span>
-        Webseite: <span class="status-online">✅ Online</span>
+        Webseite: <span id="website-status">–</span>
       </div>
       <div class="status-item">
         <span class="status-icon">📧</span>
-        Mailserver: <span class="status-online">✅ Online</span>
+        Mailserver: <span id="mail-status">–</span>
       </div>
       <div class="status-item">
         <span class="status-icon">👤</span>
-        Kundenpanel: <span class="status-online">✅ Online</span>
+        Kundenpanel: <span id="panel-status">–</span>
       </div>
     </div>
   </div>
+
+  <script>
+    async function ladeStatus() {
+      try {
+        const response = await fetch('status.json?' + new Date().getTime()); // Cache verhindern
+        const data = await response.json();
+
+        // Letztes Update
+        document.getElementById('last-updated').textContent = `Letztes Update: ${data.last_updated}`;
+
+        // Dienste
+        const statusMap = {
+          website: 'website-status',
+          mail: 'mail-status',
+          panel: 'panel-status'
+        };
+
+        for (const [key, id] of Object.entries(statusMap)) {
+          const status = data.status[key];
+          const element = document.getElementById(id);
+          element.textContent = status === 'online' ? '✅ Online' : '❌ Offline';
+          element.className = status === 'online' ? 'status-online' : 'status-offline';
+        }
+      } catch (error) {
+        document.getElementById('last-updated').textContent = 'Fehler beim Laden des Status';
+        console.error('Fehler beim Laden von status.json:', error);
+      }
+    }
+
+    ladeStatus();
+  </script>
 </body>
 </html>
