@@ -1,81 +1,106 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Status | CloudCrown Hosting</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CloudCrown Status</title>
   <style>
     body {
-      background-color: #111118;
-      color: #ffffff;
-      font-family: Arial, sans-serif;
-      margin: 0;
+      background-color: #121117;
+      color: #eee;
+      font-family: sans-serif;
+      text-align: center;
       padding: 2rem;
     }
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-    }
+
     h1 {
-      color: #DC0046;
-      text-align: center;
+      color: #dc0046;
     }
-    .status-box {
+
+    .box {
       background: #1e1e25;
-      border-radius: 1rem;
-      padding: 1.5rem;
-      margin-bottom: 1rem;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      border-radius: 15px;
+      display: inline-block;
+      padding: 1.5rem 2.5rem;
+      margin-top: 1rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
     }
+
     .status {
-      font-size: 1.2rem;
-      margin: 0.5rem 0;
+      text-align: left;
+      margin: 0 auto;
+      font-size: 1.1rem;
     }
+
+    .status p {
+      margin: 0.8rem 0;
+    }
+
     .online {
-      color: #00ff88;
+      color: #00e676;
     }
+
     .offline {
-      color: #ff4444;
+      color: #ff3d00;
     }
-    .maintenance {
-      color: #ffaa00;
+
+    .wartung {
+      color: #ffa726;
+    }
+
+    .icon {
+      margin-right: 0.5rem;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>CloudCrown Statusseite</h1>
-    <p>Letztes Update: <span id="last-updated">Lade...</span></p>
 
-    <div class="status-box">
-      <div class="status">🌐 Hauptseite: <span id="cloudcrown-ch">Lade...</span></div>
-      <div class="status">📧 Mailserver: <span id="mail-cloudcrown-ch">Lade...</span></div>
-      <div class="status">👨‍💼 Kundenpanel: <span id="mein-cloudcrown-ch">Lade...</span></div>
+  <h1>CloudCrown Statusseite</h1>
+  <p id="timestamp">Letztes Update: Lade...</p>
+
+  <div class="box">
+    <div class="status" id="statusContent">
+      <p>🔄 Lade Statusdaten...</p>
     </div>
   </div>
 
   <script>
     fetch("status.json")
-      .then((res) => res.json())
-      .then((data) => {
-        document.getElementById("last-updated").textContent = data.last_updated;
+      .then(response => response.json())
+      .then(data => {
+        const container = document.getElementById("statusContent");
+        const timestamp = document.getElementById("timestamp");
 
-        const map = {
-          "online": "✅ Online",
-          "offline": "❌ Offline",
-          "maintenance": "🛠 Wartung"
+        timestamp.textContent = `Letztes Update: ${data.last_updated}`;
+
+        const statusMap = {
+          online: { text: "✅ Online", class: "online" },
+          offline: { text: "❌ Offline", class: "offline" },
+          wartung: { text: "🛠 Wartung", class: "wartung" }
         };
 
-        document.getElementById("cloudcrown-ch").innerHTML = `<span class="${data.status.cloudcrown}">${map[data.status.cloudcrown]}</span>`;
-        document.getElementById("mail-cloudcrown-ch").innerHTML = `<span class="${data.status.mail}">${map[data.status.mail]}</span>`;
-        document.getElementById("mein-cloudcrown-ch").innerHTML = `<span class="${data.status.panel}">${map[data.status.panel]}</span>`;
+        const services = {
+          "🌐 Hauptseite": data.status.cloudcrown,
+          "📧 Mailserver": data.status.mail,
+          "👤 Kundenpanel": data.status.panel
+        };
+
+        container.innerHTML = "";
+
+        for (const [name, state] of Object.entries(services)) {
+          const s = statusMap[state] || { text: `❓ ${state}`, class: "" };
+          const p = document.createElement("p");
+          p.className = s.class;
+          p.innerHTML = `<span class="icon">${name}:</span> <strong>${s.text}</strong>`;
+          container.appendChild(p);
+        }
       })
-      .catch(() => {
-        document.querySelectorAll(".status span").forEach(el => {
-          el.textContent = "⚠️ Fehler beim Laden";
-          el.style.color = "#ffaa00";
-        });
+      .catch(error => {
+        document.getElementById("statusContent").innerHTML =
+          "<p style='color: red;'>Fehler beim Laden der Statusdaten.</p>";
+        console.error("Fehler beim Laden der JSON-Datei:", error);
       });
   </script>
+
 </body>
 </html>
