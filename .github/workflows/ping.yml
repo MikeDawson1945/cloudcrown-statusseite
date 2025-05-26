@@ -16,8 +16,21 @@ jobs:
         run: |
           echo "🔍 Starte Statusprüfung..."
 
-          export LANG=de_CH.UTF-8
-          timestamp=$(date +"%d. %B %Y, %H:%M Uhr")
+          raw_date=$(date +"%d. %B %Y, %H:%M Uhr")
+          timestamp=$(echo "$raw_date" | sed \
+            -e 's/January/Januar/' \
+            -e 's/February/Februar/' \
+            -e 's/March/März/' \
+            -e 's/April/April/' \
+            -e 's/May/Mai/' \
+            -e 's/June/Juni/' \
+            -e 's/July/Juli/' \
+            -e 's/August/August/' \
+            -e 's/September/September/' \
+            -e 's/October/Oktober/' \
+            -e 's/November/November/' \
+            -e 's/December/Dezember/')
+
 
           check_url() {
             curl -Is --max-time 5 "$1" | head -n 1 | grep -q "200" && echo "online" || echo "offline"
