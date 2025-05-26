@@ -4,46 +4,77 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CloudCrown Statusseite</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
-      background-color: #0e1117;
-      color: #e0e0e0;
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background-color: #0f111a;
+      color: #ffffff;
       text-align: center;
-      padding: 2rem;
     }
-    .statusbox {
-      background-color: #161b22;
-      padding: 1rem 2rem;
-      border-radius: 1rem;
+
+    .container {
+      margin-top: 50px;
+    }
+
+    .status-box {
+      background-color: #1c1e28;
+      border-radius: 10px;
+      padding: 20px;
       display: inline-block;
-      margin-top: 1rem;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     }
-    .status-entry {
-      margin: 0.5rem 0;
+
+    .status-item {
+      margin: 10px 0;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
     }
-    .online {
-      color: #00e676;
+
+    .status-icon {
+      font-size: 1.2rem;
     }
-    .offline {
-      color: #ff1744;
+
+    .status-online {
+      color: #4caf50;
+      font-weight: 600;
     }
-    .wartung {
-      color: #ffa726;
+
+    h1 {
+      color: #006ee8;
+      margin-bottom: 0.5rem;
     }
-    a {
-      color: #58a6ff;
-      text-decoration: none;
+
+    .timestamp {
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+      color: #bbb;
     }
   </style>
 </head>
 <body>
-  <h1 style="color: #2471ff">CloudCrown Statusseite</h1>
-  <p>Letztes Update: 26. May 2025, 20:34 Uhr</p>
-  <div class="statusbox">
-    <p class="status-entry">🌐 Webseite: <span class="online">✅ Online</span></p>
-    <p class="status-entry">📧 Mailserver: <span class="online">✅ Online</span></p>
-    <p class="status-entry">👤 Kundenpanel: <span class="online">✅ Online</span></p>
+  <div class="container">
+    <h1>CloudCrown Hosting Statusseite</h1>
+    <div class="timestamp">Letztes Update: 26. May 2025, 20:34 Uhr</div>
+
+    <div class="status-box">
+      <div class="status-item">
+        <span class="status-icon">🌐</span>
+        Webseite: <span class="status-online">✅ Online</span>
+      </div>
+      <div class="status-item">
+        <span class="status-icon">📧</span>
+        Mailserver: <span class="status-online">✅ Online</span>
+      </div>
+      <div class="status-item">
+        <span class="status-icon">👤</span>
+        Kundenpanel: <span class="status-online">✅ Online</span>
+      </div>
+    </div>
   </div>
 </body>
 </html>
