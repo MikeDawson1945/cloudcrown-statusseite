@@ -8,86 +8,41 @@ on:
 jobs:
   check-status:
     runs-on: ubuntu-latest
-
     steps:
       - name: Repository klonen
         uses: actions/checkout@v3
 
-      - name: Status prüfen und Dateien schreiben
-        env:
-          TZ: Europe/Zurich
+      - name: Status prüfen & uptime-history aktualisieren
         run: |
           echo "🔍 Starte Statusprüfung..."
 
-          timestamp=$(date "+%d. %B %Y, %H:%M Uhr")
+          timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
           check_url() {
-            code=$(curl -Is --max-time 5 -o /dev/null -w "%{http_code}" "$1")
-            if [ "$code" -ge 200 ] && [ "$code" -lt 400 ]; then
-              echo "online"
-            else
-              echo "wartung"
-            fi
+            curl -Is --max-time 5 "$1" | head -n 1 | grep -q "200" && echo "online" || echo "offline"
           }
 
+          website=$(check_url https://cloudcrown.ch)
 
-          cloudcrown=$(check_url https://www.cloudcrown.ch)
-          mail=$(check_url https://mail.cloudcrown.ch)
-          panel=$(check_url https://mein.cloudcrown.ch)
+          # Alte Datei einlesen
+          history_file="uptime-history.json"
+          if [ -f "$history_file" ]; then
+            old_data=$(cat "$history_file")
+          else
+            old_data="[]"
+          fi
 
-          echo "{
-            \"last_updated\": \"$timestamp\",
-            \"status\": {
-              \"cloudcrown\": \"$cloudcrown\",
-              \"mail\": \"$mail\",
-              \"panel\": \"$panel\"
-            }
-          }" > status.json
+          # Neue Zeile anhängen
+          new_entry="{\"timestamp\": \"$timestamp\", \"status\": \"$website\"}"
+          updated_data=$(jq --argjson new "$new_entry" \
+            '[.[], $new] | reverse | .[:96] | reverse' <<< "$old_data")
 
-          # Farben je nach Status bestimmen
-          color_from_status() {
-            case \"$1\" in
-              online) echo "brightgreen" ;;
-              wartung) echo "orange" ;;
-              offline) echo "red" ;;
-              *) echo "lightgrey" ;;
-            esac
-          }
+          echo "$updated_data" > "$history_file"
 
-          echo "{
-            \"schemaVersion\": 1,
-            \"label\": \"Hauptseite\",
-            \"message\": \"$cloudcrown\",
-            \"color\": \"$(color_from_status $cloudcrown)\"
-          }" > badge-cloudcrown.json
-
-          echo "{
-            \"schemaVersion\": 1,
-            \"label\": \"Mailserver\",
-            \"message\": \"$mail\",
-            \"color\": \"$(color_from_status $mail)\"
-          }" > badge-mail.json
-
-          echo "{
-            \"schemaVersion\": 1,
-            \"label\": \"Kundenpanel\",
-            \"message\": \"$panel\",
-            \"color\": \"$(color_from_status $panel)\"
-          }" > badge-panel.json
-
-          echo "{
-            \"schemaVersion\": 1,
-            \"label\": \"Stand\",
-            \"message\": \"$timestamp\",
-            \"color\": \"blue\"
-          }" > badge-last-updated.json
-
-      - name: Änderungen committen und pushen
-        env:
-          GIT_TOKEN: ${{ secrets.PAT_TOKEN }}
+      - name: Änderungen committen
         run: |
           git config user.name "cloudcrown-bot"
           git config user.email "bot@cloudcrown.ch"
-          git add status.json badge-*.json
-          git commit -m "🔄 Status & Badges aktualisiert" || echo "✅ Keine Änderungen"
-          git push https://x-access-token:${GIT_TOKEN}@github.com/${{ github.repository }}.git
+          git add uptime-history.json
+          git commit -m "🔄 Uptime aktualisiert" || echo "Keine Änderungen"
+          git push
