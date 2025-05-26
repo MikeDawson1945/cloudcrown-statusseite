@@ -12,7 +12,7 @@ jobs:
       - name: Repository klonen
         uses: actions/checkout@v3
 
-      - name: Status prüfen & uptime-history aktualisieren
+      - name: Status prüfen & Dateien aktualisieren
         run: |
           echo "🔍 Starte Statusprüfung..."
 
@@ -23,8 +23,26 @@ jobs:
           }
 
           website=$(check_url https://cloudcrown.ch)
+          mail=$(check_url https://mail.cloudcrown.ch)
+          panel=$(check_url https://mein.cloudcrown.ch)
 
-          # Alte Datei einlesen
+          # 🟢 status.json aktualisieren
+          echo '{
+            "last_updated": "'"$timestamp"'",
+            "status": {
+              "website": "'"$website"'",
+              "mail": "'"$mail"'",
+              "panel": "'"$panel"'"
+            }
+          }' > status.json
+
+          # 📊 Badges aktualisieren
+          echo '{"schemaVersion":1,"label":"Stand","message":"'"$(date '+%d. %B %Y, %H:%M Uhr')"'","color":"blue"}' > badge-last-updated.json
+          echo '{"schemaVersion":1,"label":"Webseite","message":"'"$website"'","color":"'"${website}"'"}' > badge-cloudcrown.json
+          echo '{"schemaVersion":1,"label":"Mailserver","message":"'"$mail"'","color":"'"${mail}"'"}' > badge-mail.json
+          echo '{"schemaVersion":1,"label":"Kundenpanel","message":"'"$panel"'","color":"'"${panel}"'"}' > badge-panel.json
+
+          # 📈 uptime-history aktualisieren
           history_file="uptime-history.json"
           if [ -f "$history_file" ]; then
             old_data=$(cat "$history_file")
@@ -32,17 +50,14 @@ jobs:
             old_data="[]"
           fi
 
-          # Neue Zeile anhängen
           new_entry="{\"timestamp\": \"$timestamp\", \"status\": \"$website\"}"
-          updated_data=$(jq --argjson new "$new_entry" \
-            '[.[], $new] | reverse | .[:96] | reverse' <<< "$old_data")
-
+          updated_data=$(jq --argjson new "$new_entry" '[.[], $new] | reverse | .[:96] | reverse' <<< "$old_data")
           echo "$updated_data" > "$history_file"
 
       - name: Änderungen committen
         run: |
           git config user.name "cloudcrown-bot"
           git config user.email "bot@cloudcrown.ch"
-          git add uptime-history.json
-          git commit -m "🔄 Uptime aktualisiert" || echo "Keine Änderungen"
+          git add status.json badge-*.json uptime-history.json badge-last-updated.json
+          git commit -m "🔄 Status & Badges aktualisiert" || echo "Keine Änderungen"
           git push
