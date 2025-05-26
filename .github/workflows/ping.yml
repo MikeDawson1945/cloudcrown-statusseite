@@ -28,21 +28,21 @@ jobs:
 
           # 🟢 status.json aktualisieren
           echo '{
-            "last_updated": "'"$timestamp"'",
+            "last_updated": "'$timestamp'",
             "status": {
-              "website": "'"$website"'",
-              "mail": "'"$mail"'",
-              "panel": "'"$panel"'"
+              "website": "'$website'",
+              "mail": "'$mail'",
+              "panel": "'$panel'"
             }
           }' > status.json
 
           # 📊 Badges aktualisieren
           echo '{"schemaVersion":1,"label":"Stand","message":"'"$(date '+%d. %B %Y, %H:%M Uhr')"'","color":"blue"}' > badge-last-updated.json
-          echo '{"schemaVersion":1,"label":"Webseite","message":"'"$website"'","color":"'"${website}"'"}' > badge-cloudcrown.json
-          echo '{"schemaVersion":1,"label":"Mailserver","message":"'"$mail"'","color":"'"${mail}"'"}' > badge-mail.json
-          echo '{"schemaVersion":1,"label":"Kundenpanel","message":"'"$panel"'","color":"'"${panel}"'"}' > badge-panel.json
+          echo '{"schemaVersion":1,"label":"Webseite","message":"'$website'","color":"'$website'"}' > badge-cloudcrown.json
+          echo '{"schemaVersion":1,"label":"Mailserver","message":"'$mail'","color":"'$mail'"}' > badge-mail.json
+          echo '{"schemaVersion":1,"label":"Kundenpanel","message":"'$panel'","color":"'$panel'"}' > badge-panel.json
 
-          # 📈 uptime-history aktualisieren
+          # 📊 uptime-history aktualisieren
           history_file="uptime-history.json"
           if [ -f "$history_file" ]; then
             old_data=$(cat "$history_file")
