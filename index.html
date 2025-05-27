@@ -55,6 +55,18 @@
       flex-wrap: wrap;
       max-width: 400px;
     }
+
+    .uptime-bar {
+      width: 8px;
+      height: 24px;
+      border-radius: 2px;
+      background-color: #4caf50;
+    }
+
+    .uptime-bar.offline {
+      background-color: #f44336;
+    }
+
     .incident-box {
       margin-top: 40px;
       padding: 20px;
@@ -87,18 +99,6 @@
       font-size: 0.95rem;
       line-height: 1.4;
       color: #ddd;
-    }
-
-
-    .uptime-bar {
-      width: 8px;
-      height: 24px;
-      border-radius: 2px;
-      background-color: #4caf50;
-    }
-
-    .uptime-bar.offline {
-      background-color: #f44336;
     }
 
     .status-item {
@@ -163,6 +163,7 @@
           Lade Verlauf...
         </div>
       </div>
+
       <div class="incident-box">
         <h2>Informationen & Wartungen</h2>
         <div id="incident-container">
@@ -217,8 +218,38 @@
       }
     }
 
+    async function ladeIncidents() {
+      try {
+        const res = await fetch('incidents.json?' + new Date().getTime());
+        const data = await res.json();
+
+        const container = document.getElementById('incident-container');
+        container.innerHTML = '';
+
+        if (data.length === 0) {
+          container.innerHTML = '<p>Keine aktiven Hinweise oder Wartungen.</p>';
+          return;
+        }
+
+        data.forEach(entry => {
+          const div = document.createElement('div');
+          div.className = 'incident-entry';
+          div.innerHTML = `
+            <h3>${entry.title}</h3>
+            <p>${entry.message}</p>
+            <small>⏱️ ${entry.date}</small>
+          `;
+          container.appendChild(div);
+        });
+      } catch (err) {
+        document.getElementById('incident-container').textContent = 'Fehler beim Laden der Hinweise.';
+        console.error(err);
+      }
+    }
+
     ladeStatus();
     ladeUptimeBalken();
+    ladeIncidents();
   </script>
 </body>
 </html>
