@@ -1,15 +1,79 @@
-<!-- incidents.json Vorschau -->
-[
-  {
-    "title": "Geplante Wartung Mailserver",
-    "date": "2025-05-28 22:00",
-    "message": "Am Mittwoch Abend führen wir Wartungsarbeiten durch. Es kann zu Unterbrüchen kommen.",
-    "type": "maintenance"
-  },
-  {
-    "title": "Kurze Netzwerkaussetzer",
-    "date": "2025-05-24 15:12",
-    "message": "Zwischen 15:00 und 15:10 kam es zu kurzen Unterbrüchen. Ursache war ein Routing-Update.",
-    "type": "incident"
+<!-- Incident-Anzeige für CloudCrown Statusseite -->
+<div id="incident-box" class="incident-box" style="display: none;">
+  <h2>Informationen & Hinweise</h2>
+  <div id="incident-container">Lade Incidents...</div>
+</div>
+
+<style>
+  .incident-box {
+    background-color: #1c1e28;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 30px;
+    width: 90%;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   }
-]
+  .incident-entry {
+    border-left: 4px solid #ffc107;
+    background: #2a2d3a;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+  }
+  .incident-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    color: #ffcb2d;
+  }
+  .incident-time {
+    color: #aaa;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+  }
+</style>
+
+<script>
+  fetch('incidents.json')
+    .then(res => res.json())
+    .then(data => {
+      const container = document.getElementById('incident-container');
+      const box = document.getElementById('incident-box');
+      container.innerHTML = '';
+
+      if (!data || data.length === 0) {
+        container.innerHTML = '<p>Zurzeit keine aktiven Hinweise oder Störungen.</p>';
+        box.style.display = 'block';
+        return;
+      }
+
+      data.forEach(entry => {
+        const div = document.createElement('div');
+        div.className = 'incident-entry';
+
+        const title = document.createElement('div');
+        title.className = 'incident-title';
+        title.textContent = entry.title;
+
+        const time = document.createElement('div');
+        time.className = 'incident-time';
+        time.textContent = `${entry.date} – ${entry.type}`;
+
+        const body = document.createElement('div');
+        body.textContent = entry.description;
+
+        div.appendChild(title);
+        div.appendChild(time);
+        div.appendChild(body);
+        container.appendChild(div);
+      });
+      box.style.display = 'block';
+    })
+    .catch(err => {
+      document.getElementById('incident-container').textContent = 'Fehler beim Laden der Hinweise.';
+      console.error('Fehler beim Laden von incidents.json:', err);
+    });
+</script>
