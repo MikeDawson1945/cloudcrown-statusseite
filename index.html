@@ -19,13 +19,19 @@
       margin-top: 50px;
     }
 
+    .status-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+    }
+
     .status-box {
       background-color: #1c1e28;
       border-radius: 10px;
       padding: 20px;
       display: inline-block;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-      margin-bottom: 30px; /* Abstand zur nächsten Box */
     }
 
     .uptime-section {
@@ -36,7 +42,7 @@
       text-align: left;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     }
-    
+
     .uptime-section h2 {
       font-size: 1.3rem;
       margin-bottom: 15px;
@@ -101,31 +107,31 @@
     <h1>CloudCrown Hosting Statusseite</h1>
     <div class="timestamp" id="last-updated">Lade letztes Update...</div>
 
-    <div class="status-box">
-      <div class="status-item">
-        <span class="status-icon">🌐</span>
-        Webseite: <span id="website-status">–</span>
+    <div class="status-wrapper">
+      <div class="status-box">
+        <div class="status-item">
+          <span class="status-icon">🌐</span>
+          Webseite: <span id="website-status">–</span>
+        </div>
+        <div class="status-item">
+          <span class="status-icon">📧</span>
+          Mailserver: <span id="mail-status">–</span>
+        </div>
+        <div class="status-item">
+          <span class="status-icon">👤</span>
+          Kundenpanel: <span id="panel-status">–</span>
+        </div>
       </div>
-      <div class="status-item">
-        <span class="status-icon">📧</span>
-        Mailserver: <span id="mail-status">–</span>
-      </div>
-      <div class="status-item">
-        <span class="status-icon">👤</span>
-        Kundenpanel: <span id="panel-status">–</span>
-      </div>
-    </div>
 
-    <!-- ✅ Neue Box für Uptime-Balken -->
-    <div class="uptime-section">
-      <h2>Verfügbarkeit</h2>
-      <div id="uptime-graph" class="uptime-graph">
-        Lade Verlauf...
+      <div class="uptime-section">
+        <h2>Verfügbarkeit</h2>
+        <div id="uptime-graph" class="uptime-graph">
+          Lade Verlauf...
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- 📦 JavaScript-Teil -->
   <script>
     async function ladeStatus() {
       try {
