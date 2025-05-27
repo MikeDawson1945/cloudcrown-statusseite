@@ -1,4 +1,3 @@
-<!-- Incident-Anzeige für CloudCrown Statusseite -->
 <div id="incident-box" class="incident-box" style="display: none;">
   <h2>Informationen & Hinweise</h2>
   <div id="incident-container">Lade Incidents...</div>
