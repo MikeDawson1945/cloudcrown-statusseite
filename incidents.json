@@ -1,0 +1,15 @@
+<!-- incidents.json Vorschau -->
+[
+  {
+    "title": "Geplante Wartung Mailserver",
+    "date": "2025-05-28 22:00",
+    "message": "Am Mittwoch Abend führen wir Wartungsarbeiten durch. Es kann zu Unterbrüchen kommen.",
+    "type": "maintenance"
+  },
+  {
+    "title": "Kurze Netzwerkaussetzer",
+    "date": "2025-05-24 15:12",
+    "message": "Zwischen 15:00 und 15:10 kam es zu kurzen Unterbrüchen. Ursache war ein Routing-Update.",
+    "type": "incident"
+  }
+]
