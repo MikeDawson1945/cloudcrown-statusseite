@@ -1,9 +1,5 @@
 [
   {
-    "timestamp": "28. Mai 2025, 09:13 Uhr",
-    "status": "online"
-  },
-  {
     "timestamp": "28. Mai 2025, 09:33 Uhr",
     "status": "online"
   },
@@ -381,6 +377,10 @@
   },
   {
     "timestamp": "29. Mai 2025, 20:13 Uhr",
+    "status": "online"
+  },
+  {
+    "timestamp": "29. Mai 2025, 20:33 Uhr",
     "status": "online"
   }
 ]
