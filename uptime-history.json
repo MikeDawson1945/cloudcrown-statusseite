@@ -1,9 +1,5 @@
 [
   {
-    "timestamp": "16. Juli 2025, 08:49 Uhr",
-    "status": "online"
-  },
-  {
     "timestamp": "16. Juli 2025, 09:17 Uhr",
     "status": "online"
   },
@@ -381,6 +377,10 @@
   },
   {
     "timestamp": "17. Juli 2025, 23:32 Uhr",
+    "status": "online"
+  },
+  {
+    "timestamp": "17. Juli 2025, 23:49 Uhr",
     "status": "online"
   }
 ]
